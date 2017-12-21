@@ -76,11 +76,19 @@ class AddContactViewController: UIViewController, UINavigationControllerDelegate
             let email = emailAddTextfield.text
             let phone = phoneAddTextfield.text
             var pictureIsOnLeft = true
+            var image = myImageView.image
             if pictureLocationChooserSegmentedControl.selectedSegmentIndex == 1 {
                 pictureIsOnLeft = false
             }
             
-            contacts?.append(Contact(name: name!, company: company, email: email, phone: phone, pictureIsOnLeft: pictureIsOnLeft, image: myImageView.image!)!)
+            if (image == UIImage(named: "noImage.jpeg")) {
+                let randomImage = ["girl", "guy", "panda", "noImage"]
+                let random = Int(arc4random_uniform(4))
+                image = UIImage(named: randomImage[random])
+            }
+            
+            
+            contacts?.append(Contact(name: name!, company: company, email: email, phone: phone, pictureIsOnLeft: pictureIsOnLeft, image: image!)!)
             
             saveContacts(contacts: contacts!)
             
@@ -89,7 +97,4 @@ class AddContactViewController: UIViewController, UINavigationControllerDelegate
         }
         
     }
-    
-
-
 }
