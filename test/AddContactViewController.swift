@@ -22,6 +22,7 @@ class AddContactViewController: UIViewController, UINavigationControllerDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.hideKeyboardWhenTappedAround()
     }
     
     //adds picture
@@ -63,7 +64,7 @@ class AddContactViewController: UIViewController, UINavigationControllerDelegate
                 textField.placeholder = "Ime in priimek"
             }
             
-            let action = UIAlertAction(title: "Dodaj.", style: .default){ (_) in
+            let action = UIAlertAction(title: "vnesi ime", style: .default){ (_) in
                 self.nameAddTextfield.text = alert.textFields?.first?.text ?? ""
             }
             alert.addAction(action)
