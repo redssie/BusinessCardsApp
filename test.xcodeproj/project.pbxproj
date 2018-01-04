@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2FAAFA591FFA9D1600EA64C3 /* AddContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FAAFA581FFA9D1600EA64C3 /* AddContactTableViewCell.swift */; };
 		2FAB84241FEAE7B3006E8211 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FAB84231FEAE7B3006E8211 /* AppDelegate.swift */; };
 		2FAB84261FEAE7B3006E8211 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FAB84251FEAE7B3006E8211 /* ViewController.swift */; };
 		2FAB84291FEAE7B3006E8211 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2FAB84271FEAE7B3006E8211 /* Main.storyboard */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2FAAFA581FFA9D1600EA64C3 /* AddContactTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContactTableViewCell.swift; sourceTree = "<group>"; };
 		2FAB84201FEAE7B3006E8211 /* test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = test.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2FAB84231FEAE7B3006E8211 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2FAB84251FEAE7B3006E8211 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -71,6 +73,7 @@
 				2FAB84421FEC1A39006E8211 /* Constants.swift */,
 				2FAB843C1FEB12E1006E8211 /* AddContactViewController.swift */,
 				2FAB84271FEAE7B3006E8211 /* Main.storyboard */,
+				2FAAFA581FFA9D1600EA64C3 /* AddContactTableViewCell.swift */,
 				2FAB843E1FEB13C9006E8211 /* Contact.swift */,
 				2FAB843A1FEAF018006E8211 /* VerticalCustomTableViewCell.swift */,
 				2FAB84381FEAEAA4006E8211 /* CustomTableViewCell.swift */,
@@ -154,6 +157,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2FAAFA591FFA9D1600EA64C3 /* AddContactTableViewCell.swift in Sources */,
 				2FAB84261FEAE7B3006E8211 /* ViewController.swift in Sources */,
 				2FAB84241FEAE7B3006E8211 /* AppDelegate.swift in Sources */,
 				2FAB843B1FEAF018006E8211 /* VerticalCustomTableViewCell.swift in Sources */,

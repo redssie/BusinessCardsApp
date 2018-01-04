@@ -8,7 +8,7 @@
 
 import Foundation
 
-var contacts:[Contact]?
+var contacts:[Contact] = []
 
 func saveContacts(contacts: [Contact]){
     let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(contacts, toFile: Contact.ArchiveURL.path)
@@ -20,6 +20,8 @@ func saveContacts(contacts: [Contact]){
     }
 }
 
-func loadContacts() -> [Contact]? {
-    return NSKeyedUnarchiver.unarchiveObject(withFile: Contact.ArchiveURL.path) as? [Contact]
+
+
+func loadContacts() -> [Contact] {
+    return NSKeyedUnarchiver.unarchiveObject(withFile: Contact.ArchiveURL.path) as? [Contact] ?? [Contact]()
 }

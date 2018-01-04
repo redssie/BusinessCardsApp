@@ -17,13 +17,85 @@ class AddContactViewController: UIViewController, UINavigationControllerDelegate
     @IBOutlet weak var phoneAddTextfield: UITextField!
     @IBOutlet weak var pictureLocationChooserSegmentedControl: UISegmentedControl!
     @IBOutlet weak var myImageView: UIImageView!
+    @IBOutlet weak var addContactButton: UIButton!
+    
+    @IBAction func nameChanged(_ sender: UITextField) {
+        guard let text = sender.text, validateName(for: text) else {
+            sender.layer.borderColor = UIColor.red.cgColor
+            sender.layer.borderWidth = 1.0
+            return
+        }
+        sender.layer.borderWidth = 0.0
+        
+        validateInfo()
+    }
+    
+    @IBAction func emailChanged(_ sender: UITextField) {
+        guard let text = sender.text else { return }
+        
+        if !validateEmail(for: text) {
+            sender.layer.borderColor = UIColor.red.cgColor
+            sender.layer.borderWidth = 1.0
+        } else {
+            sender.layer.borderWidth = 0.0
+        }
+        
+        validateInfo()
+    }
+    
+    @IBAction func phoneNumberChanged(_ sender: UITextField) {
+        guard let text = sender.text else { return }
+        
+        if !validatePhoneNumber(for: text) {
+            sender.layer.borderColor = UIColor.red.cgColor
+            sender.layer.borderWidth = 1.0
+        } else {
+            sender.layer.borderWidth = 0.0
+        }
+        
+        validateInfo()
+    }
+    
+    
     
     var contact: Contact?
+    var rowToSwitch: Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.hideKeyboardWhenTappedAround()
+        
+        nameAddTextfield.delegate = self
+        nameAddTextfield.tag = 0
+        
+        guard let setData = contact else {return}
+        nameAddTextfield.text = setData.name
+        companyAddTextfield.text = setData.company
+        emailAddTextfield.text = setData.email
+        phoneAddTextfield.text = setData.phone
+        myImageView.image = setData.image
+        if setData.pictureIsOnLeft {
+            pictureLocationChooserSegmentedControl.selectedSegmentIndex = 0
+        } else {
+            pictureLocationChooserSegmentedControl.selectedSegmentIndex = 1
+        }
+        
+        
     }
+    
+    //go to next textfield when return button is pressed
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        // Try to find next responder
+        if let nextField = textField.superview?.viewWithTag(textField.tag + 1) as? UITextField {
+            nextField.becomeFirstResponder()
+        } else {
+            // Not found, so remove keyboard.
+            textField.resignFirstResponder()
+        }
+        // Do not add a line break
+        return false
+    }
+    
     
     //adds picture
     @IBAction func addPicture(_ sender: UIButton) {
@@ -57,20 +129,6 @@ class AddContactViewController: UIViewController, UINavigationControllerDelegate
     
     
     @IBAction func addContact(_ sender: UIButton) {
-        if nameAddTextfield.text == "" {
-            let alert = UIAlertController(title: "Manjka ime in priimek!", message: "Brez imena in priimka ne morem shraniti vizitke!", preferredStyle: .alert)
-            
-            alert.addTextField { (textField) in
-                textField.placeholder = "Ime in priimek"
-            }
-            
-            let action = UIAlertAction(title: "vnesi ime", style: .default){ (_) in
-                self.nameAddTextfield.text = alert.textFields?.first?.text ?? ""
-            }
-            alert.addAction(action)
-            present(alert, animated: true, completion: nil)
-        }
-        
         if nameAddTextfield.text != "" {
             let name = nameAddTextfield.text
             let company = companyAddTextfield.text
@@ -87,11 +145,17 @@ class AddContactViewController: UIViewController, UINavigationControllerDelegate
                 let random = Int(arc4random_uniform(4))
                 image = UIImage(named: randomImage[random])
             }
+            let contactToAdd = Contact(name: name!, company: company, email: email, phone: phone, pictureIsOnLeft: pictureIsOnLeft, image: image!)!
+            
+            if contact != nil, rowToSwitch != nil {
+                contacts[rowToSwitch!] = contactToAdd
+            } else {
+                contacts.append(contactToAdd)
+            }
             
             
-            contacts?.append(Contact(name: name!, company: company, email: email, phone: phone, pictureIsOnLeft: pictureIsOnLeft, image: image!)!)
             
-            saveContacts(contacts: contacts!)
+            saveContacts(contacts: contacts)
             
             // go back to ViewController
             _ = navigationController?.popViewController(animated: true)
@@ -99,3 +163,53 @@ class AddContactViewController: UIViewController, UINavigationControllerDelegate
         
     }
 }
+
+extension AddContactViewController {
+    
+    func validateName(for text: String) -> Bool {
+        return text.count > 0
+        
+    }
+    
+    func validateEmail(for text: String) -> Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        
+        return emailTest.evaluate(with: text)
+    }
+    
+    func validatePhoneNumber(for text: String) -> Bool {
+        let phoneRegEx = "[0-9\\+\\#]{7,14}"
+        let phoneTest = NSPredicate(format: "SELF MATCHES %@", phoneRegEx)
+        return phoneTest.evaluate(with: text)
+    }
+    
+    func validateInfo() {
+        if let name = nameAddTextfield.text, !validateName(for: name) {
+            addContactButton.isEnabled = false
+            addContactButton.alpha = 0.3
+            
+            return
+        }
+        if let email = emailAddTextfield.text, validateEmail(for: email) {
+            addContactButton.isEnabled = true
+            addContactButton.alpha = 1.0
+            return
+        }
+        else if let phoneNumber = phoneAddTextfield.text, validatePhoneNumber(for: phoneNumber) {
+            addContactButton.isEnabled = true
+            addContactButton.alpha = 1.0
+            return
+        }
+        addContactButton.isEnabled = false
+        addContactButton.alpha = 0.3
+    }
+    
+    
+    
+    
+}
+
+
+
+

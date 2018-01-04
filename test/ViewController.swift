@@ -14,16 +14,25 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var editBarButton: UIBarButtonItem!
     
+    @IBAction func AddContactButtonPressed(_ sender: UIButton) {
+        performSegue(withIdentifier: "addContactSegue", sender: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "ShowDetail" || segue.identifier == "ShowDetailVertical"), let destination = segue.destination as? AddContactViewController, let index = tableView.indexPathForSelectedRow?.row {
+            print("index at path row: \(index)")
+            destination.contact = contacts[index]
+            destination.rowToSwitch = index
+        }
+    }
+    
+    
     override func viewDidLoad() {
-        
         super.viewDidLoad()
         
         tableView.delegate = self
         tableView.dataSource = self
         
-        if (contacts?.isEmpty)!{
-            loadSampleContact()
-        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -35,12 +44,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     //no. of rows in section
     
      func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return contacts!.count
+        guard !contacts.isEmpty else { return 1}
+        return contacts.count
     }
     
     //height of a row
      func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if contacts![indexPath.row].pictureIsOnLeft {
+        guard !contacts.isEmpty else { return 250}
+        if contacts[indexPath.row].pictureIsOnLeft {
                 return 150
             }
         return 200
@@ -50,7 +61,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     //cell for each row
      public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let contact = contacts![indexPath.row]
+        
+        guard !contacts.isEmpty else {
+            return tableView.dequeueReusableCell(withIdentifier: "addContactCell")!
+        }
+        let contact = contacts[indexPath.row]
         //set verticalCustomCell (picture is on top and data underneath)
         if !contact.pictureIsOnLeft {
             
@@ -89,14 +104,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     //allows conditional editing
      func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        guard !contacts.isEmpty else { return false}
         return true
     }
     
     //delete row in tableview
      func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        guard !contacts.isEmpty else { return }
+        
         if editingStyle == .delete {
-            contacts?.remove(at: indexPath.row)
-            saveContacts(contacts: contacts!)
+            contacts.remove(at: indexPath.row)
+            saveContacts(contacts: contacts)
             tableView.reloadData()
         }
     }
@@ -107,7 +125,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         guard let verticalContact = Contact(name: "Ime Priimek", company: "Podjetje in pozicija", email: "ime.priimek@podjetje.si", phone: "051 123 456", pictureIsOnLeft: false, image: image) else { fatalError("Error loadSampleContact: verticalContact")}
         
         //contacts?.append(horizontalContact)
-        contacts?.append(verticalContact)
+        contacts.append(verticalContact)
     }
     
 }

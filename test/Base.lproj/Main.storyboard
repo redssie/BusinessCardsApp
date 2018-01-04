@@ -112,6 +112,7 @@
                                             <outlet property="imageIsOnLeft" destination="qYB-QV-rii" id="oRG-Pe-XcT"/>
                                             <outlet property="nameLabel" destination="kes-Vf-ptw" id="lBw-zW-KNL"/>
                                             <outlet property="phoneLabel" destination="Amp-ME-D7l" id="8qE-fK-hfd"/>
+                                            <segue destination="9tw-6r-c3K" kind="show" identifier="ShowDetail" id="gmU-98-1gw"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="verticalCustomCell" rowHeight="250" id="A3g-uv-aTt" customClass="VerticalCustomTableViewCell" customModule="test" customModuleProvider="target">
@@ -186,7 +187,45 @@
                                             <outlet property="verticalEmailLabel" destination="2cN-Ef-34a" id="Pgp-BI-m5A"/>
                                             <outlet property="verticalNameLabel" destination="3jt-ld-bFa" id="NtB-bH-xQJ"/>
                                             <outlet property="verticalPhoneLabel" destination="q0b-rP-Wze" id="Ro2-Uv-d3a"/>
+                                            <segue destination="9tw-6r-c3K" kind="show" identifier="ShowDetailVertical" id="UPS-3O-WYh"/>
                                         </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="addContactCell" rowHeight="250" id="c8D-Yk-SA7" customClass="AddContactsTableViewCell" customModule="test" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="428" width="375" height="250"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="c8D-Yk-SA7" id="Cnh-2T-BEY">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="250"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="trO-Te-WCE">
+                                                    <rect key="frame" x="15" y="11" width="345" height="228"/>
+                                                    <subviews>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h9R-pk-p9z">
+                                                            <rect key="frame" x="8" y="8" width="329" height="212"/>
+                                                            <color key="backgroundColor" red="1" green="0.83234566450000003" blue="0.47320586440000001" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="150"/>
+                                                            <state key="normal" title="➕"/>
+                                                            <connections>
+                                                                <action selector="AddContactButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="lFH-xM-v9g"/>
+                                                            </connections>
+                                                        </button>
+                                                    </subviews>
+                                                    <color key="backgroundColor" red="1" green="0.83234566450000003" blue="0.47320586440000001" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <constraints>
+                                                        <constraint firstItem="h9R-pk-p9z" firstAttribute="leading" secondItem="trO-Te-WCE" secondAttribute="leading" constant="8" id="0sR-Db-kIn"/>
+                                                        <constraint firstItem="h9R-pk-p9z" firstAttribute="top" secondItem="trO-Te-WCE" secondAttribute="top" constant="8" id="ARr-rj-0wK"/>
+                                                        <constraint firstAttribute="trailing" secondItem="h9R-pk-p9z" secondAttribute="trailing" constant="8" id="MIU-3V-O15"/>
+                                                        <constraint firstAttribute="bottom" secondItem="h9R-pk-p9z" secondAttribute="bottom" constant="8" id="nNX-rh-Wy3"/>
+                                                    </constraints>
+                                                </view>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottomMargin" secondItem="trO-Te-WCE" secondAttribute="bottom" id="Q8m-j0-qzQ"/>
+                                                <constraint firstItem="trO-Te-WCE" firstAttribute="top" secondItem="Cnh-2T-BEY" secondAttribute="topMargin" id="VHc-GY-hxN"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="trO-Te-WCE" secondAttribute="trailing" id="ViV-P1-1gs"/>
+                                                <constraint firstItem="trO-Te-WCE" firstAttribute="leading" secondItem="Cnh-2T-BEY" secondAttribute="leadingMargin" id="aUE-CK-YyK"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -203,7 +242,7 @@
                     <navigationItem key="navigationItem" id="43I-T6-B6Y">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="cwg-Yq-qv3">
                             <connections>
-                                <segue destination="9tw-6r-c3K" kind="show" id="tMa-N6-TcB"/>
+                                <segue destination="9tw-6r-c3K" kind="show" identifier="addContactSegue" id="tMa-N6-TcB"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -262,29 +301,44 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="top" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="3oF-4Y-YGc">
                                 <rect key="frame" x="10" y="298" width="355" height="256"/>
                                 <subviews>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Ime in Priimek" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3Fc-bI-hm5">
+                                    <textField opaque="NO" tag="-1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Ime in Priimek" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3Fc-bI-hm5">
                                         <rect key="frame" x="0.0" y="0.0" width="355" height="36"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no" returnKeyType="next" smartQuotesType="no"/>
+                                        <connections>
+                                            <action selector="nameChanged:" destination="9tw-6r-c3K" eventType="editingDidEnd" id="pSH-zf-Uvc"/>
+                                            <outlet property="delegate" destination="9tw-6r-c3K" id="f83-Fq-TEV"/>
+                                        </connections>
                                     </textField>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Podjetje in naziv" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Kiu-aR-k3j">
+                                    <textField opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Podjetje in naziv" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Kiu-aR-k3j">
                                         <rect key="frame" x="0.0" y="44" width="355" height="36"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next" smartQuotesType="no"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="9tw-6r-c3K" id="m5q-3A-4uV"/>
+                                        </connections>
                                     </textField>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email naslov" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="L2c-eA-vyF">
+                                    <textField opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email naslov" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="L2c-eA-vyF">
                                         <rect key="frame" x="0.0" y="88" width="355" height="36"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next" smartQuotesType="no"/>
+                                        <connections>
+                                            <action selector="emailChanged:" destination="9tw-6r-c3K" eventType="editingDidEnd" id="Qge-xm-XNZ"/>
+                                            <outlet property="delegate" destination="9tw-6r-c3K" id="NDN-dB-nws"/>
+                                        </connections>
                                     </textField>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Telefonska številka" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wt3-TF-rIh">
+                                    <textField opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Telefonska številka" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wt3-TF-rIh">
                                         <rect key="frame" x="0.0" y="132" width="355" height="36"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="phonePad" returnKeyType="done" smartQuotesType="no"/>
+                                        <connections>
+                                            <action selector="phoneNumberChanged:" destination="9tw-6r-c3K" eventType="editingDidEnd" id="Z1G-en-AVW"/>
+                                            <outlet property="delegate" destination="9tw-6r-c3K" id="Lzr-d9-UwB"/>
+                                        </connections>
                                     </textField>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="EB5-Kp-GHZ">
                                         <rect key="frame" x="0.0" y="176" width="355" height="37"/>
@@ -336,6 +390,7 @@
                         <viewLayoutGuide key="safeArea" id="2LY-Kq-WhO"/>
                     </view>
                     <connections>
+                        <outlet property="addContactButton" destination="hpM-XR-HFb" id="9Pb-cj-3ji"/>
                         <outlet property="companyAddTextfield" destination="Kiu-aR-k3j" id="vNs-5w-M51"/>
                         <outlet property="emailAddTextfield" destination="L2c-eA-vyF" id="Ntg-MG-XJI"/>
                         <outlet property="myImageView" destination="BF3-VS-1OW" id="8OE-NR-UEX"/>
@@ -354,4 +409,7 @@
         <image name="noImage" width="212" height="237"/>
         <image name="panda" width="481" height="600"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="UPS-3O-WYh"/>
+    </inferredMetricsTieBreakers>
 </document>
